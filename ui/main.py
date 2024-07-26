@@ -1,0 +1,1 @@
+# TODO: write simple UI which takes in invoice as pdf and returns the extracted data in a table
