@@ -3,6 +3,8 @@ import streamlit as st
 import random
 import base64
 
+from gpt_parser import get_answer, read_pdf
+
 def init_state():
     if "invoice" not in st.session_state:
         st.session_state.invoice = ""
@@ -24,9 +26,8 @@ def show_pdf():
     st.session_state["markdown_string"]  = markdown_string
 
 def extract_data():
-    #TODO: extract data from pdf using gpt-4o-mini
-    # and stream as table to user
-    pass
+    return True
+    
 
 def main():
     init_state()
@@ -36,7 +37,12 @@ def main():
 
     st.markdown(st.session_state["markdown_string"], unsafe_allow_html=True)
 
-    st.button("extract data to table with gpt", on_click=extract_data)
+    st.divider()
+
+    if st.button("extract data to table with gpt", on_click=extract_data):
+        content = read_pdf(st.session_state["invoice"])
+
+        st.write_stream(get_answer(content))
 
 if __name__ == "__main__":
     main()
